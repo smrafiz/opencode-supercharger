@@ -1,0 +1,4 @@
+node_modules/
+*.lock
+*.lockb
+.DS_Store
