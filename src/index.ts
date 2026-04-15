@@ -139,6 +139,7 @@ export const supercharger: Plugin = async () => {
       const filePath = (args.filePath as string) || "";
 
       if (tool === "bash" && cmd) {
+        if (cmd.startsWith("git commit")) return;
         const n = norm(cmd);
         for (const { pat, msg } of DANGEROUS) {
           if (pat.test(n)) block(msg);
