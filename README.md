@@ -134,13 +134,13 @@ Patterns caught include "ignore previous instructions", "you are now", "jailbrea
 
 ---
 
-## Installation options
-
-**Quick install** (clone + auto-setup):
+## Uninstall
 
 ```bash
-git clone https://github.com/smrafiz/opencode-supercharger.git && cd opencode-supercharger && bash install.sh
+bash uninstall.sh
 ```
+
+This removes plugin, agents, commands, skills, and rules.
 
 **One-liner** (temp clone, auto-clean):
 
@@ -322,6 +322,11 @@ Example: `feat(install): add auto-tag creation`
 
 Tags trigger automated release:
 - Push tag `v1.x.x` → Creates GitHub Release → Publishes to npm
+
+**Required**: Add `NPM_TOKEN` secret in GitHub repo settings:
+1. Go to: https://www.npmjs.com/settings/-/tokens
+2. Generate new token with **"Bypass two-factor authentication"** checked
+3. Add to repo: Settings → Secrets → Actions → New secret → `NPM_TOKEN`
 
 ---
 
