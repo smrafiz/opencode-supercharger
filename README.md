@@ -169,6 +169,87 @@ A reasonable starting point:
 
 ---
 
+## Agents
+
+Nine specialist agents are available in `configs/agents.json`. Merge the `"agent"` block into your `opencode.json`:
+
+```json
+{
+  "plugins": ["@opencode-supercharger/plugin"],
+  "agent": {
+    // paste contents of configs/agents.json "agent" block here
+  }
+}
+```
+
+| Agent | Mode | Use for |
+|---|---|---|
+| `engineer` | subagent | Writing, fixing, or improving code |
+| `debugger` | subagent | Root-cause analysis — reports findings, does not fix |
+| `reviewer` | subagent | Code review with structured severity report (read-only) |
+| `writer` | subagent | Blog posts, docs, emails, READMEs |
+| `architect` | subagent | Design plans before building — no implementation code |
+| `planner` | subagent | Task breakdown and sequencing — no implementation code |
+| `researcher` | subagent | Research, comparisons, explanations |
+| `analyst` | subagent | Data analysis, SQL, metrics, reports |
+| `generalist` | primary | Default — general questions and tasks |
+
+Invoke any agent by name in your prompt: `@engineer fix the auth bug` or `@reviewer review this PR`.
+
+---
+
+## Commands
+
+Six slash commands are available in `configs/commands.json`. Merge the `"command"` block into your `opencode.json`:
+
+```json
+{
+  "command": {
+    // paste contents of configs/commands.json "command" block here
+  }
+}
+```
+
+| Command | Use for |
+|---|---|
+| `/think <problem>` | Structured 5-step reasoning for ambiguous problems |
+| `/challenge <decision>` | Adversarial stress-test — assumptions, failure modes, critics |
+| `/refactor <target>` | Code quality sweep — complexity, duplication, naming, coupling |
+| `/audit <target>` | Consistency sweep — naming, style, docs, contracts, error handling |
+| `/test <target>` | Generate unit tests covering happy path, edge cases, errors |
+| `/doc <target>` | Generate documentation with usage examples |
+
+---
+
+## Rules
+
+Ready-to-use instruction files live in `configs/rules/`. Add them to the `"instructions"` array in your `opencode.json`:
+
+```json
+{
+  "instructions": [
+    "configs/rules/guardrails.md",
+    "configs/rules/economy-lean.md",
+    "configs/rules/developer.md"
+  ]
+}
+```
+
+| File | What it does |
+|---|---|
+| `guardrails.md` | Four laws: read before edit, stay in scope, verify before commit, halt when uncertain |
+| `economy-lean.md` | Lean output mode — every word earns its place, no ceremony |
+| `economy-minimal.md` | Minimal output mode — telegraphic, bare deliverables only |
+| `developer.md` | Developer role rules — code output, workflow, git, conventions |
+
+---
+
+## Example config
+
+`configs/opencode.example.json` is a complete working config that combines the plugin, agents, commands, and rules. Copy it to your project root as `opencode.json` and adjust to taste.
+
+---
+
 ## FAQ
 
 <details>

@@ -1,0 +1,28 @@
+{
+  "command": {
+    "think": {
+      "description": "Structured reasoning for an ambiguous problem",
+      "template": "Apply structured reasoning to: $ARGUMENTS\n\n1. Clarify: what exactly is the question?\n2. Inventory: what do we know, what's unknown?\n3. Hypotheses: list possible answers\n4. Stress-test: what breaks each hypothesis?\n5. Decide: which hypothesis survives?"
+    },
+    "challenge": {
+      "description": "Adversarial stress-test of a decision",
+      "template": "Stress-test this decision: $ARGUMENTS\n\n1. What assumptions does this depend on?\n2. What's the worst failure mode?\n3. What would a strong critic say?\n4. What alternatives were rejected and why?\n5. Under what conditions should we reverse this?"
+    },
+    "refactor": {
+      "description": "Code quality sweep",
+      "template": "Analyze for refactoring: $ARGUMENTS\n\nCheck: complexity, duplication, naming, coupling, testability. For each finding: state what's wrong, why it matters, and the minimal fix."
+    },
+    "audit": {
+      "description": "Consistency sweep",
+      "template": "Sweep for inconsistencies: $ARGUMENTS\n\nCheck: naming patterns, code style, documentation accuracy, interface contracts, error handling patterns."
+    },
+    "test": {
+      "description": "Generate unit tests",
+      "template": "Generate unit tests for: $ARGUMENTS\n\nCover: happy path, edge cases, error cases. Use the project's existing test framework. Match existing test style."
+    },
+    "doc": {
+      "description": "Generate documentation",
+      "template": "Generate documentation for: $ARGUMENTS\n\nLead with what it does and why. Include usage examples. Skip obvious details."
+    }
+  }
+}

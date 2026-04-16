@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "plugin": ["opencode-supercharger"],
+  "instructions": [
+    "configs/rules/guardrails.md",
+    "configs/rules/economy-lean.md",
+    "configs/rules/developer.md"
+  ],
+  "permission": {
+    "edit": { "*": "allow" },
+    "bash": {
+      "*": "ask",
+      "git status *": "allow",
+      "git log *": "allow",
+      "git diff *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
+      "grep *": "allow",
+      "find *": "allow",
+      "npm test *": "allow",
+      "npm run *": "allow",
+      "pnpm test *": "allow",
+      "pnpm run *": "allow"
+    },
+    "read": {
+      "*": "allow",
+      "*.env*": "ask"
+    }
+  }
+}
