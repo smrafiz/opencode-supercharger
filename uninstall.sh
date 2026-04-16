@@ -51,6 +51,13 @@ if [ -d "$TARGET_DIR/.opencode/rules" ]; then
   done
 fi
 
+# --- 5. Remove version tag ---
+CURRENT_VERSION=$(node -p "require('./package.json').version")
+TAG_NAME="v$CURRENT_VERSION"
+if git rev-parse "refs/tags/$TAG_NAME" >/dev/null 2>&1; then
+  git tag -d "$TAG_NAME" 2>/dev/null && echo -e "  ${GREEN}✓${NC} Removed tag $TAG_NAME" || true
+fi
+
 echo ""
 echo -e "${GREEN}OpenCode Supercharger fully uninstalled.${NC}"
 echo "  Restart OpenCode to complete removal."
