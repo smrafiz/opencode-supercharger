@@ -127,25 +127,23 @@ Patterns caught include "ignore previous instructions", "you are now", "jailbrea
 
 ## Installation options
 
-**Local plugin (no npm required)**
-
-Clone this repo and reference it by absolute path:
-
-```json
-{
-  "plugins": ["/absolute/path/to/opencode-supercharger/src/index.ts"]
-}
-```
-
-**npm**
+**Quick install** (clone + auto-setup):
 
 ```bash
-npm install @opencode-supercharger/plugin
+git clone https://github.com/smrafiz/opencode-supercharger.git && cd opencode-supercharger && bash install.sh
 ```
+
+**One-liner** (temp clone, auto-clean):
+
+```bash
+bash -c 'TMP=$(mktemp -d) && git clone https://github.com/smrafiz/opencode-supercharger.git "$TMP/ocs" && cd "$TMP/ocs" && bash install.sh && rm -rf "$TMP"'
+```
+
+**npm only** (plugin without skills/rules):
 
 ```json
 {
-  "plugins": ["@opencode-supercharger/plugin"]
+  "plugin": ["opencode-supercharger"]
 }
 ```
 
