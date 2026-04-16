@@ -1,13 +1,29 @@
 {
-  "name": "@opencode-supercharger/plugin",
+  "name": "opencode-supercharger",
   "version": "1.0.0",
   "description": "Shell-level guardrails for OpenCode. Block dangerous commands, scan for secrets, detect loops.",
   "main": "src/index.ts",
   "type": "module",
-  "keywords": ["opencode", "supercharger", "safety", "guardrails", "security"],
-  "author": "smrafiz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smrafiz/opencode-supercharger.git"
+  },
+  "homepage": "https://github.com/smrafiz/opencode-supercharger",
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "supercharger",
+    "safety",
+    "guardrails",
+    "security",
+    "audit",
+    "code-review"
+  ],
+  "author": "Starter Developer (smrafiz)",
   "license": "MIT",
-  "peerDependencies": {
-    "@opencode-ai/plugin": "*"
-  }
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
 }
