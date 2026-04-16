@@ -8,17 +8,26 @@
 
 OpenCode is powerful enough to delete your database, force-push to main, or pipe a shell script from the internet. Nothing in the default config stops it. This plugin does.
 
-## Install
+## Install (Two Options)
 
-Add one line to your `opencode.json`:
-
-```json
-{
-  "plugins": ["@opencode-supercharger/plugin"]
-}
+### Option 1: Clone + Install (Recommended)
+```bash
+git clone https://github.com/smrafiz/opencode-supercharger.git
+cd opencode-supercharger
+bash install.sh
 ```
 
-That's it. Every session is protected from that point on.
+### Option 2: npm + init
+```bash
+npm install -g opencode-supercharger
+npx opencode-supercharger init
+```
+
+Both routes install:
+- Plugin with guardrails
+- 9 agents (engineer, debugger, reviewer, etc.)
+- 6 commands (/think, /challenge, etc.)
+- Skills & rules
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "opencode-supercharger",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Shell-level guardrails for OpenCode. Block dangerous commands, scan for secrets, detect loops.",
   "main": "src/index.ts",
   "type": "module",
@@ -23,7 +23,12 @@
   "license": "MIT",
   "files": [
     "src/",
+    "configs/",
+    "scripts/",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "bin": {
+    "opencode-supercharger": "scripts/init.js"
+  }
 }
