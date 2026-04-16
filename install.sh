@@ -1,18 +1,34 @@
 #!/bin/bash
 set -e
 
-echo "Installing OpenCode Supercharger..."
+PLUGIN_PATH="$(cd "$(dirname "$0")/src" && pwd)/index.ts"
 
-PLUGIN_DIR="$HOME/.opencode/plugins/supercharger"
-mkdir -p "$PLUGIN_DIR"
+# Locate opencode.json
+if [ -f "./opencode.json" ]; then
+  CONFIG="./opencode.json"
+elif [ -f "$HOME/.config/opencode/opencode.json" ]; then
+  CONFIG="$HOME/.config/opencode/opencode.json"
+else
+  CONFIG="./opencode.json"
+fi
 
-cp -r src/* "$PLUGIN_DIR/"
+if [ -f "$CONFIG" ]; then
+  # Add plugin path to existing file using node/bun inline script
+  bun -e "
+    const fs = require('fs');
+    const cfg = JSON.parse(fs.readFileSync('$CONFIG', 'utf8'));
+    cfg.plugin = cfg.plugin || [];
+    if (!cfg.plugin.includes('$PLUGIN_PATH')) {
+      cfg.plugin.push('$PLUGIN_PATH');
+      fs.writeFileSync('$CONFIG', JSON.stringify(cfg, null, 2) + '\n');
+      console.log('Added plugin to $CONFIG');
+    } else {
+      console.log('Plugin already registered in $CONFIG');
+    }
+  "
+else
+  printf '{\n  "plugin": ["%s"]\n}\n' "$PLUGIN_PATH" > "$CONFIG"
+  echo "Created $CONFIG with plugin entry"
+fi
 
-echo "Supercharger installed to $PLUGIN_DIR"
-echo ""
-echo "Configuration options:"
-echo "1. Enable directly (if plugin is registered):"
-echo '   "plugins": { "enable": ["supercharger"] }'
-echo ""
-echo "2. Or load from source:"
-echo '   "plugins": { "sources": [{ "path": "/Users/srafiz/GithubProjects/opencode-supercharger/src", "recursive": true }] }'
+echo "OpenCode Supercharger installed."

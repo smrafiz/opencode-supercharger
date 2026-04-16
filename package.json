@@ -1,24 +1,13 @@
 {
   "name": "@opencode-supercharger/plugin",
   "version": "1.0.0",
-  "description": "Claude Supercharger-style safety, auditing, and optimization for OpenCode",
-  "main": "dist/index.js",
+  "description": "Shell-level guardrails for OpenCode. Block dangerous commands, scan for secrets, detect loops.",
+  "main": "src/index.ts",
   "type": "module",
-  "scripts": {
-    "build": "bun build.ts",
-    "dev": "bun build.ts --watch",
-    "test": "bun test"
-  },
-  "keywords": [
-    "opencode",
-    "supercharger",
-    "safety",
-    "audit"
-  ],
-  "author": "Your Name",
+  "keywords": ["opencode", "supercharger", "safety", "guardrails", "security"],
+  "author": "smrafiz",
   "license": "MIT",
-  "devDependencies": {
-    "bun-types": "^1.0.0"
-  },
-  "dependencies": {}
+  "peerDependencies": {
+    "@opencode-ai/plugin": "*"
+  }
 }
