@@ -136,7 +136,7 @@ git clone https://github.com/smrafiz/opencode-supercharger.git && cd opencode-su
 **One-liner** (temp clone, auto-clean):
 
 ```bash
-bash -c 'TMP=$(mktemp -d) && git clone https://github.com/smrafiz/opencode-supercharger.git "$TMP/ocs" && cd "$TMP/ocs" && bash install.sh && rm -rf "$TMP"'
+bash -c 'TMP=$(mktemp -d) && git clone https://github.com/smrafiz/opencode-supercharger.git "$TMP/ocs" && bash "$TMP/ocs/install.sh" "$(pwd)" && rm -rf "$TMP"'
 ```
 
 **npm only** (plugin without skills/rules):

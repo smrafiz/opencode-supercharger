@@ -2,22 +2,24 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TARGET_DIR="${1:-$(pwd)}"
 BOLD='\033[1m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
 echo -e "${BOLD}OpenCode Supercharger Installer${NC}"
+echo -e "  Target: $TARGET_DIR"
 echo ""
 
 # --- 1. Locate or create opencode.json ---
-if [ -f "./opencode.json" ]; then
-  CONFIG="./opencode.json"
-elif [ -f "./opencode.jsonc" ]; then
-  CONFIG="./opencode.jsonc"
+if [ -f "$TARGET_DIR/opencode.json" ]; then
+  CONFIG="$TARGET_DIR/opencode.json"
+elif [ -f "$TARGET_DIR/opencode.jsonc" ]; then
+  CONFIG="$TARGET_DIR/opencode.jsonc"
 elif [ -f "$HOME/.config/opencode/opencode.json" ]; then
   CONFIG="$HOME/.config/opencode/opencode.json"
 else
-  CONFIG="./opencode.json"
+  CONFIG="$TARGET_DIR/opencode.json"
 fi
 
 # --- 2. Add plugin to config ---
@@ -28,7 +30,6 @@ if [ -f "$CONFIG" ]; then
     bun -e "
       const fs = require('fs');
       let raw = fs.readFileSync('$CONFIG', 'utf8');
-      // Strip JSONC comments for parsing
       let clean = raw.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
       const cfg = JSON.parse(clean);
       cfg.plugin = cfg.plugin || [];
@@ -44,7 +45,7 @@ else
 fi
 
 # --- 3. Copy skills ---
-SKILLS_DIR=".opencode/skills"
+SKILLS_DIR="$TARGET_DIR/.opencode/skills"
 mkdir -p "$SKILLS_DIR"
 SKILL_COUNT=0
 for skill_dir in "$SCRIPT_DIR/configs/skills/"*/; do
@@ -55,13 +56,13 @@ for skill_dir in "$SCRIPT_DIR/configs/skills/"*/; do
   fi
 done
 if [ "$SKILL_COUNT" -gt 0 ]; then
-  echo -e "  ${GREEN}✓${NC} ${SKILL_COUNT} skill(s) installed to $SKILLS_DIR/"
+  echo -e "  ${GREEN}✓${NC} ${SKILL_COUNT} skill(s) installed to .opencode/skills/"
 else
   echo -e "  ${GREEN}✓${NC} Skills already installed"
 fi
 
 # --- 4. Copy rules ---
-RULES_DIR=".opencode/rules"
+RULES_DIR="$TARGET_DIR/.opencode/rules"
 mkdir -p "$RULES_DIR"
 RULE_COUNT=0
 for rule_file in "$SCRIPT_DIR/configs/rules/"*.md; do
@@ -72,7 +73,7 @@ for rule_file in "$SCRIPT_DIR/configs/rules/"*.md; do
   fi
 done
 if [ "$RULE_COUNT" -gt 0 ]; then
-  echo -e "  ${GREEN}✓${NC} ${RULE_COUNT} rule(s) installed to $RULES_DIR/"
+  echo -e "  ${GREEN}✓${NC} ${RULE_COUNT} rule(s) installed to .opencode/rules/"
   echo ""
   echo -e "  ${BOLD}Add rules to your config:${NC}"
   echo '  "instructions": [".opencode/rules/guardrails.md", ".opencode/rules/economy-lean.md", ".opencode/rules/developer.md"]'
