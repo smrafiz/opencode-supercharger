@@ -291,7 +291,37 @@ Yes. The plugin detects your lockfile and blocks the wrong package manager autom
 
 ## Credits
 
-OpenCode Supercharger is a port of [Claude Supercharger](https://github.com/smrafiz/claude-supercharger) — a guardrails and productivity layer originally built for Claude Code. The safety patterns, audit system, loop detector, and config scanner are adapted directly from that project.
+OpenCode Supercharger is a port of [Claude Supercharger](https://github.com/smrafiz/claude-supercharger) — a guardrails and productivity layer originally built for Claude Code.
+
+---
+
+## Development
+
+### Commit Convention
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+
+Types:
+- feat:     New feature
+- fix:      Bug fix
+- docs:     Documentation
+- style:    Formatting
+- refactor: Code restructure
+- perf:     Performance
+- test:     Tests
+- chore:    Maintenance
+- ci:       CI/CD
+```
+
+Example: `feat(install): add auto-tag creation`
+
+### Release
+
+Tags trigger automated release:
+- Push tag `v1.x.x` → Creates GitHub Release → Publishes to npm
 
 ---
 
