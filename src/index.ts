@@ -9,8 +9,10 @@ import { scanConfigFiles } from "./config-scan.ts"
 import { classifyPrompt } from "./agent-routing.ts"
 import { trackFileChange, getScopeWarning, resetScope } from "./scope-alert.ts"
 
-const VERSION = "1.4.0"
+const VERSION = "1.5.0"
 let sessionId = ""
+let filesModified = 0
+let totalCost = 0
 
 export const supercharger = async (ctx: any) => {
   const projectDir = (ctx.directory || process.cwd()) as string
@@ -96,6 +98,10 @@ export const supercharger = async (ctx: any) => {
         scanOutput(result)
       }
 
+      if ((tool === "edit" || tool === "write" || tool === "bash") && args) {
+        filesModified++
+      }
+
       if (trackCall(tool, args)) {
         const msg = "LOOP: same tool+args repeated 3x in 30s — try a different approach"
         console.error(`[Supercharger] ${msg}`)
@@ -136,6 +142,13 @@ export const supercharger = async (ctx: any) => {
 
     "tui.toast.show": async (input: any, output: any) => {
       // Allow toast to show - we use this for our own notifications
+    },
+
+    "tui.statusLine.variables": async (input: any, output: any) => {
+      output.variables = output.variables || {}
+      output.variables.supercharger_files = filesModified
+      output.variables.supercharger_cost = totalCost.toFixed(2)
+      return output
     },
   }
 }

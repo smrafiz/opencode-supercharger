@@ -1,6 +1,6 @@
 {
   "name": "opencode-supercharger",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Shell-level guardrails for OpenCode. Block dangerous commands, scan for secrets, detect loops.",
   "main": "src/index.ts",
   "type": "module",

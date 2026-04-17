@@ -43,6 +43,27 @@ bash install.sh
 | **Self-teaching** | Learns from blocked commands and user corrections |
 | **Context advisor** | Warns at 50%, 70%, 80%, 90% context usage |
 | **Verify on stop** | Warns if files were modified but no tests ran |
+| **Agent routing** | Suggests specialized agents based on task |
+| **Scope alerts** | Warns when >5 files touched |
+| **Status line** | Displays files modified, session cost in TUI footer |
+
+---
+
+## Status Line (Optional)
+
+Add to your `opencode.json` to show supercharger stats in the TUI footer:
+
+```json
+{
+  "tui": {
+    "status_line": {
+      "templates": {
+        "session_footer": "files: {supercharger_files} | cost: ${supercharger_cost}"
+      }
+    }
+  }
+}
+```
 
 ---
 
