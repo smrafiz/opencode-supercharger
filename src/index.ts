@@ -6,8 +6,11 @@ import { scanOutput } from "./secrets.ts"
 import { logEvent, rotateAudit } from "./audit.ts"
 import { trackCall } from "./loop-detector.ts"
 import { scanConfigFiles } from "./config-scan.ts"
+import { classifyPrompt } from "./agent-routing.ts"
+import { trackFileChange, getScopeWarning, resetScope } from "./scope-alert.ts"
 
-const VERSION = "1.2.6"
+const VERSION = "1.4.0"
+let sessionId = ""
 
 export const supercharger = async (ctx: any) => {
   const projectDir = (ctx.directory || process.cwd()) as string
@@ -65,6 +68,17 @@ export const supercharger = async (ctx: any) => {
           console.error(`[Supercharger] Warning: ${w}`)
           notify(w, "warn")
         }
+
+        if (filePath && sessionId) {
+          const count = trackFileChange(sessionId, filePath)
+          if (count > 5) {
+            const scopeMsg = getScopeWarning(sessionId)
+            if (scopeMsg) {
+              console.error(`[Supercharger] ${scopeMsg}`)
+              notify(scopeMsg, "warn")
+            }
+          }
+        }
       }
     },
 
@@ -91,6 +105,7 @@ export const supercharger = async (ctx: any) => {
 
     event: async ({ event }: any) => {
       if (event.type === "session.created") {
+        sessionId = event.session_id || `session-${Date.now()}`
         console.error(`[Supercharger] Session started — v${VERSION}`)
         notify("Session started", "info")
         rotateAudit()
@@ -103,11 +118,19 @@ export const supercharger = async (ctx: any) => {
       }
       if (event.type === "session.deleted") {
         console.error("[Supercharger] Session ended")
+        if (sessionId) resetScope(sessionId)
         notify("Session ended", "info")
       }
       if (event.type === "session.idle") {
         console.error("[Supercharger] Task complete")
         notify("Task complete", "info")
+      }
+      if (event.type === "message.created") {
+        const prompt = event.message?.content || ""
+        const agent = classifyPrompt(prompt)
+        if (agent) {
+          console.error(`[Supercharger] Hint: Consider @${agent} for this task`)
+        }
       }
     },
 
