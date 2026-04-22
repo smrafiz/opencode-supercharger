@@ -46,6 +46,33 @@ bash install.sh
 | **Agent routing** | Suggests specialized agents based on task |
 | **Scope alerts** | Warns when >5 files touched |
 | **Status line** | Displays files modified, session cost in TUI footer |
+| **Checkpoint** | Auto-saves on git commit, restores on new session |
+| **/interview** | Deep interview command for requirement gathering |
+| **/devlog** | Development log command |
+| **Per-project config** | Override features via `.supercharger.json` |
+
+---
+
+## New Slash Commands
+
+| Command | Use For |
+|---------|---------|
+| `/interview` | Deep interview to clarify requirements before planning |
+| `/devlog` | Create structured development log entries |
+
+---
+
+## Per-Project Configuration
+
+Create `.supercharger.json` in your project:
+
+```json
+{
+  "disableHooks": ["loop-detector", "scope-alert"],
+  "disableAgents": ["debugger"],
+  "customRules": ["no-debug-code"]
+}
+```
 
 ---
 

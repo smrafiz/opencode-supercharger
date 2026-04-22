@@ -8,11 +8,13 @@ import { trackCall } from "./loop-detector.ts"
 import { scanConfigFiles } from "./config-scan.ts"
 import { classifyPrompt } from "./agent-routing.ts"
 import { trackFileChange, getScopeWarning, resetScope } from "./scope-alert.ts"
+import { writeCheckpoint, readCheckpoint, hasCheckpoint } from "./checkpoint.ts"
 
-const VERSION = "1.5.0"
+const VERSION = "1.6.0"
 let sessionId = ""
 let filesModified = 0
 let totalCost = 0
+let modifiedFiles: string[] = []
 
 export const supercharger = async (ctx: any) => {
   const projectDir = (ctx.directory || process.cwd()) as string
@@ -71,13 +73,16 @@ export const supercharger = async (ctx: any) => {
           notify(w, "warn")
         }
 
-        if (filePath && sessionId) {
-          const count = trackFileChange(sessionId, filePath)
-          if (count > 5) {
-            const scopeMsg = getScopeWarning(sessionId)
-            if (scopeMsg) {
-              console.error(`[Supercharger] ${scopeMsg}`)
-              notify(scopeMsg, "warn")
+        if (filePath) {
+          modifiedFiles.push(filePath)
+          if (sessionId) {
+            const count = trackFileChange(sessionId, filePath)
+            if (count > 5) {
+              const scopeMsg = getScopeWarning(sessionId)
+              if (scopeMsg) {
+                console.error(`[Supercharger] ${scopeMsg}`)
+                notify(scopeMsg, "warn")
+              }
             }
           }
         }
@@ -88,6 +93,7 @@ export const supercharger = async (ctx: any) => {
       const tool = input.tool as string
       const args = (output as any).args || {}
       const result = ((output as any).result || "") as string
+      const filePath = (input as any).args?.filePath || ""
 
       logEvent({
         tool,
@@ -96,6 +102,10 @@ export const supercharger = async (ctx: any) => {
 
       if (result) {
         scanOutput(result)
+      }
+
+      if (tool === "bash" && result && result.includes("git commit")) {
+        writeCheckpoint(projectDir, modifiedFiles)
       }
 
       if ((tool === "edit" || tool === "write" || tool === "bash") && args) {
@@ -115,6 +125,12 @@ export const supercharger = async (ctx: any) => {
         console.error(`[Supercharger] Session started — v${VERSION}`)
         notify("Session started", "info")
         rotateAudit()
+
+        const checkpoint = readCheckpoint(projectDir)
+        if (checkpoint) {
+          console.error(`[Supercharger] Found checkpoint from ${checkpoint.sessionStart}`)
+          notify(`Checkpoint found: ${checkpoint.filesModified.length} files previously modified`, "warn")
+        }
 
         const warnings = scanConfigFiles(projectDir)
         for (const w of warnings) {

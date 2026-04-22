@@ -8,6 +8,14 @@
       "description": "Adversarial stress-test of a decision",
       "template": "Stress-test this decision: $ARGUMENTS\n\n1. What assumptions does this depend on?\n2. What's the worst failure mode?\n3. What would a strong critic say?\n4. What alternatives were rejected and why?\n5. Under what conditions should we reverse this?"
     },
+    "interview": {
+      "description": "Deep interview to clarify requirements before planning",
+      "template": "Interview the user about: $ARGUMENTS\n\nAsk focused questions to understand:\n1. Scope - what exactly should be built?\n2. Success - how will we know it's done?\n3. Constraints - any limits on approach?\n4. Context - what existing code/stack?\n\nOne question at a time. Wait for their answer before next."
+    },
+    "devlog": {
+      "description": "Create development log entry",
+      "template": "Create a devlog entry for: $ARGUMENTS\n\nFormat:\n## YYYY-MM-DD\n### What\nOne sentence description\n### Why\nContext and motivation\n### How\nApproach taken\n### What Worked\nKey success\n### What Didn't\nChallenges faced\n### Next Steps\nPending items"
+    },
     "refactor": {
       "description": "Code quality sweep",
       "template": "Analyze for refactoring: $ARGUMENTS\n\nCheck: complexity, duplication, naming, coupling, testability. For each finding: state what's wrong, why it matters, and the minimal fix."
